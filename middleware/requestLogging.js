@@ -10,7 +10,7 @@ const settings = require('../configuration/settings')
  */
 module.exports = function(req, res, next){
     if(settings.debugRequests) {
-        winston.info(req.method + ' ' + req.url + ' ' + req.headers['user-agent'])
+        winston.info(req.method + ' ' + req.url)
     }
     next()
 }

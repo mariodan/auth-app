@@ -9,6 +9,7 @@ const settings = {
     sessionSecret: 's e s s i o n s e c r e t',
     jwtAlgorithm: 'HS512',
     httpHeaderTokenName: 'auth-token',
+    dbFile: 'auth-app.db',
     env: {
         API_PORT: 3000,
         API_HOST: 'localhost'

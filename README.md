@@ -18,8 +18,9 @@ Scope
 - Use sqlite as a DB.
 
 
-Env
+Env requirements
 ----------
+- install low-level system SQLite libraries: sudo apt-get install sqlite3
 - set-up your environment with:
 * It's good to have NODE_ENV variable set: NODE_ENV=development|production 
 * node.js >=4.2.1

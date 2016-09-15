@@ -99,8 +99,12 @@ M.findAll = function(){
     return new Promise((resolve, reject) => {
         this.db().all(Queries.USER.getAll, function(err, rows){
             if(err) reject(err)
-            const users = _.map(rows, user => M.instantiateFromDb(user))
-            resolve(_.map(users, user => user.data))
+            if(rows.length) {
+                const users = _.map(rows, user => M.instantiateFromDb(user))
+                resolve(_.map(users, user => user.data))
+            } else {
+                resolve([])
+            }
         })
     })
 }
@@ -152,7 +156,9 @@ M.add = function(inputData){
 
         this.db().run(Queries.USER.add, values, function(err){
             if(err) reject(err)
-            resolve(user)
+        })
+        this.db().each(Queries.USER.findByEmail, [user.get('email')], function(err, row){
+            resolve(M.instantiateFromDb.call(user, row))
         })
     })
 }

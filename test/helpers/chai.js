@@ -18,7 +18,7 @@ global.should = chai.should()
 
 
 
-function setupDb() {
+function setupMemoryDb() {
     const db = new sqlite3.Database(':memory:')
     global.db = db
     initializeModels(db)
@@ -26,5 +26,19 @@ function setupDb() {
     db.exec(queries.TEST.USER.insertRecord)
 }
 
-setupDb()
+global.useFileDb = function () {
+    let db
+    let env
+
+    before(function (done) {
+        db = global.DB
+        done()
+    })
+
+    return function () {
+        return db
+    }
+}
+
+setupMemoryDb()
 global.testData = utils.testData

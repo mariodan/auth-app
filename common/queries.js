@@ -20,7 +20,7 @@ const queries = {
               lastName             TEXT,
               lastLogout           INTEGER
             )`,
-            insertRecord: `INSERT into User(email, firstName, lastName, passwordHash) values('test3@mydomain.com', 'test first name', 'test last name', 'pass#1234')`
+            insertRecord: `INSERT into User(email, firstName, lastName, passwordHash) values($email, 'test first name', 'test last name', 'pass#1234')`
         }
     }
 }

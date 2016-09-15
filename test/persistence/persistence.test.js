@@ -35,7 +35,7 @@ describe('Models', function () {
             .add(testData.userCreate)
             .then(user => {
                 user.data.should.have.property('id')
-                user.data.email.should.equal(testData.userCreate.email)
+                user.data.email.should.equal(user.email)
                 done()
             })
             .catch(err => done(err))

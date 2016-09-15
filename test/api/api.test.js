@@ -37,7 +37,7 @@ describe('REST API test', function () {
 
     it('should add a new user', function(done) {
         const newUser = testData.userCreate
-        newUser.email = Math.random()*100  + newUser.email
+        newUser.email = Math.floor(Math.random()*100)  + newUser.email
         chai.request(api)
             .post('/v1/api/users')
             .send(newUser)

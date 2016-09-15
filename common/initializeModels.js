@@ -3,16 +3,17 @@ const models = require('./modelsRequire')
 const Promise = require('bluebird')
 const _ = require('underscore')
 
-
 function initializeModels(dbTest) {
     let db = global.DB
     if(dbTest) {
         db = dbTest
     }
+    let UserModel = require('../models/UserModel')
+
     Promise.promisifyAll(db)
-    const UserModel = new models['UserModel']
-    UserModel.instantiate(db)
+    UserModel = UserModel.instantiate(db)
     global.UserModel = UserModel
+    winston.info('[ initializing models ]: done!')
 }
 
 module.exports = initializeModels

@@ -13,10 +13,7 @@ const deleteUser = function(req, res){
         .findById(req.params.id)
         .then(user => user.delete())
         .then(() => res.status(HTTP.NO_CONTENT).send())
-        .catch(err => {
-            console.log(err.stack)
-            res.status(HTTP.INTERNAL_SERVER_ERROR).send(err)
-        })
+        .catch(err => res.status(HTTP.NOT_FOUND).send({error: err.message}))
 }
 
 /**

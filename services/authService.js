@@ -19,7 +19,7 @@ const createSession = function(user){
     const expires = moment().add(settings.sessionDuration, 'milliseconds')
 
     const session = {
-        id: key,
+        key: key,
         user: {
             id: user.id,
             email: user.email,
@@ -53,7 +53,7 @@ const decodeToken = function(token){
     } catch (e) {
         winston.error(`Token ${token} invalid!`)
     }
-    return Promise.resolve(decodedSessionData)
+    return decodedSessionData
 }
 
 

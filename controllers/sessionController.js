@@ -1,10 +1,9 @@
 'use strict'
 
-
 const UserValidator = require('../validators/userValidator')
 const authService = require('../services/authService')
 const settings = require('../configuration/settings')
-
+const UserModel = global.UserModel
 
 /**
  * Create session
@@ -12,9 +11,12 @@ const settings = require('../configuration/settings')
  * @param res
  */
 const create = function(req, res){
+    const email = req.body.email
+    const passwd = req.body.passwd
     UserValidator
         .userLoginValidator(req)
-        .then(() => authService.createSession(settings.testUser))
+        .then(() => UserModel.findByEmail(email))
+        .then(user => authService.createSession(user))
         .then(data => {
             res.setHeader(settings.httpHeaderTokenName, data.token)
             res.status(HTTP.OK).send(data)
@@ -47,8 +49,8 @@ const remove = function(req, res){
  */
 const getSessionDetails = function(req, res){
     const token = req.headers[settings.httpHeaderTokenName]
-    authService
-        .decodeToken(token)
+    Promise.resolve()
+        .then(() => authService.decodeToken(token))
         .then(data => res.status(HTTP.OK).send(data))
         .catch(err => res.status(HTTP.UNAUTHORIZED).send(err))
 }

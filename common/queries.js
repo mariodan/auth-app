@@ -2,7 +2,7 @@
 
 const queries = {
     USER: {
-        findById: 'SELECT * from User where id = (?)',
+        findById: 'SELECT * from User where id = $id',
         getAll: 'SELECT * from User',
         save: 'UPDATE User SET email = $email, firstName = $firstName, lastName = $lastName, passwordHash = $passwordHash WHERE id = $id',
         add: 'INSERT into User(email, firstName, lastName, passwordHash) values($email, $firstName, $lastName, $passwordHash)',
@@ -20,7 +20,7 @@ const queries = {
               lastName             TEXT,
               lastLogout           INTEGER
             )`,
-            insertRecord: `INSERT into User(email, firstName, lastName, passwordHash) values($email, 'test first name', 'test last name', 'pass#1234')`
+            insertRecord: `INSERT into User(email, firstName, lastName, passwordHash) values('test55@mydomain.com', 'test first name', 'test last name', 'pass#1234')`
         }
     }
 }

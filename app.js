@@ -8,6 +8,8 @@ const middleware = require('./middleware/')
 const handlers = require('./common/handlers')
 const settings = require('./configuration/settings')
 const router = require('express').Router()
+const authenticationVerifier = require('./security/authenticationVerifier')
+const authorizationVerifier = require('./security/authorizationVerifier')
 const sqlite3 = require("sqlite3").verbose()
 const initializeModels = require('./common/initializeModels')
 
@@ -59,10 +61,17 @@ app.use(handlers.logErrors)
 
 
 /**
+ * Security middleware
+ */
+app.use(authenticationVerifier)
+app.use(authorizationVerifier)
+
+
+/**
  * Routes
  */
 const routes = require('./routes/')(router)
-app.use(settings.apiEndpoint, routes)
+app.use(settings.rootApiEndpoint, routes)
 
 /**
  * Server start
@@ -71,7 +80,7 @@ app.listen(settings.env.API_PORT, settings.env.API_HOST, function () {
     winston.info('[ environment ]: %s', process.env.NODE_ENV)
     winston.info('[ sqlite3 db file ] ' + settings.dbFile)
     winston.info('[ path ] Running from: ' + __dirname)
-    winston.info('[ api ] ' + settings.version + ' running on http://%s:%s%s ', settings.env.API_HOST, settings.env.API_PORT, settings.apiEndpoint)
+    winston.info('[ api ] ' + settings.version + ' running on http://%s:%s%s ', settings.env.API_HOST, settings.env.API_PORT, settings.rootApiEndpoint)
 })
 
 

@@ -1,10 +1,13 @@
 'use strict'
 
 const settings = {
+    publicAPIList: [
+        '/session'
+    ],
     debugRequests: true,
     responseTimeThreshold: 500,
     version: 'v1.0',
-    apiEndpoint: '/v1/api',
+    rootApiEndpoint: '/v1/api',
     sessionDuration: 1000 * 60 * 60 * 24 * 7,//1 week
     sessionSecret: 's e s s i o n s e c r e t',
     jwtAlgorithm: 'HS512',

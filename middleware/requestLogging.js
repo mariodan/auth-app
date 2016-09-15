@@ -8,10 +8,9 @@ const settings = require('../configuration/settings')
  * @param res
  * @param next
  */
-
 module.exports = function(req, res, next){
     if(settings.debugRequests) {
-        winston.info(req.method + ' ' + req.url + ' ' + req.headers['content-length'] + " bytes")
+        winston.info(req.method + ' ' + req.url + ' ' + req.headers['user-agent'])
     }
     next()
 }

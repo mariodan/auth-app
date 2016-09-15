@@ -11,7 +11,7 @@ function clientErrorHandler(err, req, res, next) {
             winston.error({error: err.name + ' - ' + err.message})
             res.status(500).send({error: err.name + ' - ' + err.message})
         }
-        next()
+        next(err)
     }
 }
 

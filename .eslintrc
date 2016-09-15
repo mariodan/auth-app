@@ -1,0 +1,26 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "templateStrings": true,
+    "destructuring": true,
+    "superInFunctions": true,
+    "generators": true,
+    "forOf": true
+  },
+  "rules": {
+    "no-undef":2,
+    //"no-unused-vars":2,
+    "no-const-assign":2
+
+  },
+  "globals": {
+    "winston": true,
+    "HTTP": true
+  }
+}

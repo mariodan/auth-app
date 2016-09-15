@@ -14,16 +14,18 @@ const router = require('express').Router()
  * Globals
  */
 global.winston  = require('winston')
-
+global.HTTP = require('./common/HttpStatusCodes')
 
 const app = express()
+
+
 
 /**
  * Jade views
  */
 //TODO might be switching to dot-template
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
+//app.set('views', path.join(__dirname, 'views'))
+//app.set('view engine', 'jade')
 
 
 /**
@@ -32,7 +34,6 @@ app.set('view engine', 'jade')
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
 app.use(cookieParser())
-
 app.use(express.static(path.join(__dirname, 'public')))
 
 
@@ -59,7 +60,6 @@ app.use(handlers.logErrors)
  */
 const routes = require('./routes/')(router)
 app.use(settings.apiEndpoint, routes)
-
 
 /**
  * Server start

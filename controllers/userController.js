@@ -1,5 +1,5 @@
 'use strict'
-const UserModel = global.UserModel
+const UserModel = require('../models/UserModel')
 const passwordHash = require('password-hash')
 
 

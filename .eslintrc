@@ -22,7 +22,6 @@
   "globals": {
     "winston": true,
     "HTTP": true,
-    "DB": true,
-    "UserModel": true
+    "DB": true
   }
 }

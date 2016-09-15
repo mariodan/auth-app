@@ -3,7 +3,7 @@
 const UserValidator = require('../validators/userValidator')
 const authService = require('../services/authService')
 const settings = require('../configuration/settings')
-const UserModel = global.UserModel
+const UserModel = require('../models/UserModel')
 
 /**
  * Create session

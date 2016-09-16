@@ -1,5 +1,6 @@
 /* global describe:true,it:true,setupDb:true,expect:true,UserModel:true,testData:true */
 'use strict'
+const passwordHash = require('password-hash')
 
 
 describe('Models', function () {
@@ -31,8 +32,10 @@ describe('Models', function () {
 
 
     it('should add a new user', function(done) {
+        const newUser = testData.userCreate
+        newUser.passwordHash = passwordHash.generate(newUser.passwordHash)
         UserModel
-            .add(testData.userCreate)
+            .add(newUser)
             .then(user => {
                 user.data.should.have.property('id')
                 user.data.email.should.equal(user.email)

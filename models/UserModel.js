@@ -7,7 +7,8 @@ const User = new Model('User', {
     lastName: '',
     firstName: '',
     passwordHash: '',
-    lastLogout: ''
+    lastLogin: 0,
+    lastLogout: 0
 }, global.DB)
 
 module.exports = User

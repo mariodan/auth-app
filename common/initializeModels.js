@@ -13,7 +13,6 @@ function initializeModels(dbTest) {
     Promise.promisifyAll(db)
     UserModel = UserModel.instantiate(db)
     global.UserModel = UserModel
-    winston.info('[ initializing models ]: done!')
 }
 
 module.exports = initializeModels

@@ -1,6 +1,7 @@
 'use strict'
 const UserModel = require('../models/UserModel')
 const passwordHash = require('password-hash')
+const utils = require('./ControllerUtils')
 
 
 /**
@@ -22,13 +23,14 @@ const deleteUser = function(req, res){
  * @param res
  */
 const addUser = function(req, res){
+    const body = req.body
+    if(body.passwordHash) {
+        body.passwordHash = passwordHash.generate(body.passwordHash)
+    }
     UserModel
-        .add(req.body)
+        .add(body)
         .then(user => res.status(HTTP.OK).send(user.data))
-        .catch(err => {
-            console.log(err.stack)
-            res.status(HTTP.INTERNAL_SERVER_ERROR).send(err)
-        })
+        .catch(err => res.status(HTTP.INTERNAL_SERVER_ERROR).send(err))
 }
 
 /**
@@ -37,6 +39,7 @@ const addUser = function(req, res){
  * @param res
  */
 const updateUser = function(req, res){
+    const logResponse = utils.curried.log(res)
     UserModel
         .findById(req.params.id)
         .then(user => {
@@ -47,9 +50,7 @@ const updateUser = function(req, res){
             return user.save()
         })
         .then(user => res.status(HTTP.OK).send(user.data))
-        .catch(err => {
-            res.status(HTTP.NOT_FOUND).send()
-        })
+        .catch(err => logResponse(err, HTTP.INTERNAL_SERVER_ERROR, `error_load_user: ${req.body.email}`))
 }
 
 /**
@@ -73,9 +74,7 @@ const listAll = function(req, res){
     UserModel
         .findAll()
         .then(users => res.status(HTTP.OK).send(users))
-        .catch(err => {
-            res.status(HTTP.INTERNAL_SERVER_ERROR).send(err)
-        })
+        .catch(err => res.status(HTTP.INTERNAL_SERVER_ERROR).send(err))
 }
 
 

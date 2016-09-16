@@ -7,10 +7,7 @@ const UserModel = require('../models/UserModel')
 
 const authenticationVerifier = function(req, res, next){
 
-    if (!req.headers[settings.httpHeaderTokenName]) {
-        return next()
-    }
-    if (_s.isBlank(req.headers[settings.httpHeaderTokenName])) {
+    if (!req.headers[settings.httpHeaderTokenName] || _s.isBlank(req.headers[settings.httpHeaderTokenName])) {
         return next()
     }
 
@@ -25,6 +22,9 @@ const authenticationVerifier = function(req, res, next){
     UserModel
         .findById(decodedSession.user.id)
         .then(user => {
+            console.log('moment: ' + moment() + ' > '  + decodedSession.expires + ' ?')
+            console.log('User db lastLogout: ' + user.lastLogout)
+
             if(!user) {
                 winston.error(`User ${decodedSession.user.id} not found!`)
                 return res.status(HTTP.UNAUTHORIZED).send()
@@ -37,6 +37,7 @@ const authenticationVerifier = function(req, res, next){
             } else {
                 req[settings.httpHeaderTokenName] = decodedSession
                 req.currentUser = user
+                console.log('added currentUser')
                 next()
             }
         })

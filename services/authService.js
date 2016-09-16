@@ -4,6 +4,9 @@ const Chance = require('chance')
 const jwt = require('jwt-simple')
 const moment = require('moment')
 const settings = require('../configuration/settings')
+const _ = require('underscore')
+const _s = require('underscore.string')
+const ErrorMessage = require('../common/ErrorMessage')
 
 
 /**
@@ -47,13 +50,15 @@ const createSession = function(user, req){
  */
 const decodeToken = function(token){
     let decodedSessionData
-    if(!token) return Error('No token session available')
+    if(!token.length || !token || token == '') return new ErrorMessage('No token session available', HTTP.UNAUTHORIZED, '')
+
     try {
         decodedSessionData = jwt.decode(token, settings.sessionSecret, settings.jwtAlgorithm)
     } catch (e) {
         winston.error(`Token ${token} invalid!`)
     }
     return decodedSessionData
+
 }
 
 
@@ -64,8 +69,19 @@ const decodeToken = function(token){
  */
 const removeSession = function(req){
     return new Promise(function(resolve, reject){
-        //TODO implement after persistence is done
-        reject(Error('unimplemented'))
+        if(req.currentUser) {
+            req.currentUser.lastLogout = new Date()
+            console.log(req.currentUser)
+            req.currentUser
+                .save()
+                .then(user => {
+                    winston.info(req.currentUser.email + ' has logged out.')
+                    resolve()
+                })
+                .catch(err => reject(Error('error_logging_out')))
+        } else {
+            reject(Error('unauthorized'))
+        }
     })
 }
 

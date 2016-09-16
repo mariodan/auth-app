@@ -7,7 +7,8 @@ const testData = {
         "passwordHash": "mypass",
         "firstName": "Test First Name",
         "lastName": "Test Last Name",
-        "lastLogout": 123123123
+        "lastLogin": 0,
+        "lastLogout": 0
     }
 }
 

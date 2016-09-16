@@ -4,8 +4,9 @@ const UserValidator = require('../validators/userValidator')
 const authService = require('../services/authService')
 const settings = require('../configuration/settings')
 const UserModel = require('../models/UserModel')
-const securityUtils = require('../security/utils')
-const utils = require('./utils')
+const securityUtils = require('../security/SecurityUtils')
+const utils = require('./ControllerUtils')
+const ErrorMessage = require('../common/ErrorMessage')
 
 /**
  * Create session
@@ -35,7 +36,7 @@ const createSession = function(req, res){
  * @param req
  * @param res
  */
-const remove = function(req, res){
+const removeSession = function(req, res){
     authService
         .removeSession(req)
         .then(() => res.status(HTTP.OK).send())
@@ -50,16 +51,21 @@ const remove = function(req, res){
  * @returns {*}
  */
 const getSessionDetails = function(req, res){
+    const logResponse = utils.curried.log(res)
+
     const token = req.headers[settings.httpHeaderTokenName]
     Promise.resolve()
-        .then(() => authService.decodeToken(token))
+        .then(() => {
+            const decodedSession = authService.decodeToken(token)
+            return decodedSession instanceof Error ? Promise.reject(decodedSession) : Promise.resolve(decodedSession)
+        })
         .then(data => res.status(HTTP.OK).send(data))
-        .catch(err => res.status(HTTP.UNAUTHORIZED).send(err))
+        .catch(err => logResponse(err, HTTP.UNAUTHORIZED, `unauthorized_request`))
 }
 
 
 module.exports = {
-    createSession,
-    remove,
+    create: createSession,
+    remove: removeSession,
     getCurrent: getSessionDetails
 }

@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS User
   passwordHash         TEXT,
   firstName            TEXT,
   lastName             TEXT,
+  lastLogin            INTEGER,
   lastLogout           INTEGER
 );
 

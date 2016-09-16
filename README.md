@@ -21,8 +21,8 @@ Scope
 Env requirements
 ----------
 - install low-level system SQLite libraries: sudo apt-get install sqlite3
+- install global mocha: npm install mocha -g
 - set-up your environment with:
-* It's good to have NODE_ENV variable set: NODE_ENV=development|production 
 * node.js >=4.2.1
 * nvm - Node Version Manager
 * npm - Node Package Manager
@@ -45,3 +45,12 @@ How to run
 How to test
 -----------
 - npm test
+
+
+Remaining
+---------
+- write more tests
+- documentation (e.g. apidoc)
+- refactor
+- refactor
+- refactor

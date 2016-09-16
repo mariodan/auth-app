@@ -11,7 +11,7 @@ const settings = require('../configuration/settings')
  * @param user
  * @returns {{token: String}}
  */
-const createSession = function(user){
+const createSession = function(user, req){
     const chance = new Chance()
     const key = chance.guid()
 

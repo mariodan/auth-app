@@ -4,27 +4,29 @@ const UserValidator = require('../validators/userValidator')
 const authService = require('../services/authService')
 const settings = require('../configuration/settings')
 const UserModel = require('../models/UserModel')
+const securityUtils = require('../security/utils')
+const utils = require('./utils')
 
 /**
  * Create session
  * @param req
  * @param res
  */
-const create = function(req, res){
+const createSession = function(req, res){
     const email = req.body.email
-    const passwd = req.body.passwd
+    const passwd = req.body.password
+    const logResponse = utils.curried.log(res)
+
     UserValidator
         .userLoginValidator(req)
         .then(() => UserModel.findByEmail(email))
-        .then(user => authService.createSession(user))
+        .then(user => securityUtils.validatePass(user, passwd))
+        .then(user => authService.createSession(user, req))
         .then(data => {
             res.setHeader(settings.httpHeaderTokenName, data.token)
             res.status(HTTP.OK).send(data)
         })
-        .catch(err => {
-            winston.error(err)
-            res.status(HTTP.BAD_REQUEST).send()
-        })
+        .catch(err => logResponse(err, HTTP.UNAUTHORIZED, `invalid_login: ${email}`))
 }
 
 
@@ -55,8 +57,9 @@ const getSessionDetails = function(req, res){
         .catch(err => res.status(HTTP.UNAUTHORIZED).send(err))
 }
 
+
 module.exports = {
-    create: create,
-    remove: remove,
+    createSession,
+    remove,
     getCurrent: getSessionDetails
 }

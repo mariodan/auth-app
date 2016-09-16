@@ -2,9 +2,13 @@
 
 const settings = {
     publicAPIList: [
-        '/session'
+        '/session',
+        '/public',
+        '/favicon.ico',
+        '/views',
+        '/login'
     ],
-    debugRequests: true,
+    debugRequests: false,
     responseTimeThreshold: 500,
     version: 'v1.0',
     rootApiEndpoint: '/v1/api',
@@ -15,7 +19,8 @@ const settings = {
     dbFile: 'auth-app.db',
     env: {
         API_PORT: 3000,
-        API_HOST: 'localhost'
+        API_HOST: 'localhost',
+        SOAP_PORT: 1337
     },
     testUser: {
         id: 12332,

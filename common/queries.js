@@ -4,7 +4,7 @@ const queries = {
     USER: {
         findById: 'SELECT * from User where id = $id',
         getAll: 'SELECT * from User',
-        save: 'UPDATE User SET email = $email, firstName = $firstName, lastName = $lastName, passwordHash = $passwordHash WHERE id = $id',
+        save: 'UPDATE User SET email = $email, firstName = $firstName, lastName = $lastName, passwordHash = $passwordHash, lastLogout = $lastLogout WHERE id = $id',
         add: 'INSERT into User(email, firstName, lastName, passwordHash) values($email, $firstName, $lastName, $passwordHash)',
         delete: 'DELETE from User where id = (?)',
         findByEmail: 'SELECT * from User where email = (?)'

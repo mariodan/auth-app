@@ -12,6 +12,11 @@ const authenticationVerifier = require('./security/authenticationVerifier')
 const authorizationVerifier = require('./security/authorizationVerifier')
 const sqlite3 = require("sqlite3").verbose()
 const initializeModels = require('./common/initializeModels')
+const soap = require('soap-server')
+const SoapSubscriptionHandler = require('./soap/SoapSubscriptionHandler')
+const soapServer = new soap.SoapServer()
+const soapService = soapServer.addService('subscriptionService', new SoapSubscriptionHandler())
+
 
 /**
  * Globals
@@ -29,8 +34,18 @@ initializeModels()
  * Jade views
  */
 //TODO might be switching to dot-template
-//app.set('views', path.join(__dirname, 'views'))
-//app.set('view engine', 'jade')
+/*
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'jade')
+app.get('/', function (req, res) {
+    res.render('login', { title: 'Hey', message: 'Hello there!'})
+})
+*/
+
+/**
+ * API doc
+ */
+app.use('/', middleware.htmls)
 
 
 /**
@@ -81,6 +96,10 @@ app.listen(settings.env.API_PORT, settings.env.API_HOST, function () {
     winston.info('[ sqlite3 db file ] ' + settings.dbFile)
     winston.info('[ path ] Running from: ' + __dirname)
     winston.info('[ api ] ' + settings.version + ' running on http://%s:%s%s ', settings.env.API_HOST, settings.env.API_PORT, settings.rootApiEndpoint)
+})
+
+soapServer.listen(settings.env.SOAP_PORT, settings.env.API_HOST, function(){
+    winston.info('[ soap server started ]: ' + settings.env.API_HOST + ':' + settings.env.SOAP_PORT)
 })
 
 

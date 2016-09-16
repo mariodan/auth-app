@@ -22,8 +22,6 @@ const authenticationVerifier = function(req, res, next){
     UserModel
         .findById(decodedSession.user.id)
         .then(user => {
-            console.log('moment: ' + moment() + ' > '  + decodedSession.expires + ' ?')
-            console.log('User db lastLogout: ' + user.lastLogout)
 
             if(!user) {
                 winston.error(`User ${decodedSession.user.id} not found!`)
@@ -37,7 +35,6 @@ const authenticationVerifier = function(req, res, next){
             } else {
                 req[settings.httpHeaderTokenName] = decodedSession
                 req.currentUser = user
-                console.log('added currentUser')
                 next()
             }
         })

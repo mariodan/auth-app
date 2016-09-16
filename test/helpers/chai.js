@@ -8,6 +8,7 @@ const utils = require('./utils')
 const queries = require('../../common/queries')
 const sqlite3 = require('sqlite3').verbose()
 const initializeModels = require('../../common/initializeModels')
+const authService = require('../../services/authService')
 
 chai.use(chaiAsPromised)
 global.expect = chai.expect
@@ -28,7 +29,6 @@ function setupMemoryDb() {
 
 global.useFileDb = function () {
     let db
-    let env
 
     before(function (done) {
         db = global.DB

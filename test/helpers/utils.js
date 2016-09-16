@@ -9,6 +9,12 @@ const testData = {
         "lastName": "Test Last Name",
         "lastLogin": 0,
         "lastLogout": 0
+    },
+    loginEmail: "test@mytest.com",
+    loginPass: "mypass",
+    loginUser: {
+        "email": "admin@mydomain.com",
+        "password": "secret#123"
     }
 }
 

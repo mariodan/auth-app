@@ -22,7 +22,7 @@ const createSession = function(req, res){
         .userLoginValidator(req)
         .then(() => UserModel.findByEmail(email))
         .then(user => securityUtils.validatePass(user, passwd))
-        .then(user => authService.createSession(user, req))
+        .then(user => authService.createSession(user))
         .then(data => {
             res.setHeader(settings.httpHeaderTokenName, data.token)
             res.status(HTTP.OK).send(data)

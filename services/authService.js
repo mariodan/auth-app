@@ -7,6 +7,8 @@ const settings = require('../configuration/settings')
 const _ = require('underscore')
 const _s = require('underscore.string')
 const ErrorMessage = require('../common/ErrorMessage')
+const UserModel = require('../models/UserModel')
+const securityUtils = require('../security/SecurityUtils')
 
 
 /**
@@ -14,7 +16,7 @@ const ErrorMessage = require('../common/ErrorMessage')
  * @param user
  * @returns {{token: String}}
  */
-const createSession = function(user, req){
+const createSession = function(user){
     const chance = new Chance()
     const key = chance.guid()
 
@@ -40,6 +42,19 @@ const createSession = function(user, req){
     return {
         token: encodedSession
     }
+}
+
+
+/**
+ * Create session
+ * @param req
+ * @param res
+ */
+const getToken = function(email, pass){
+    UserModel.findByEmail(email)
+        .then(user => securityUtils.validatePass(user, pass))
+        .then(user => createSession(user))
+        .then(data => data.token)
 }
 
 
@@ -71,7 +86,6 @@ const removeSession = function(req){
     return new Promise(function(resolve, reject){
         if(req.currentUser) {
             req.currentUser.lastLogout = new Date()
-            console.log(req.currentUser)
             req.currentUser
                 .save()
                 .then(user => {
@@ -89,5 +103,6 @@ const removeSession = function(req){
 module.exports = {
     createSession: createSession,
     removeSession: removeSession,
-    decodeToken: decodeToken
+    decodeToken: decodeToken,
+    getToken: getToken
 }

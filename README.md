@@ -158,4 +158,4 @@ Missing
 ----------
 - HTML client side (although REST API support most operations except *subscription*)
 - login page exists but it is not yet linked to the authentication process
-- SOAP client-server implementation uses differents port (1337 for soap server while the soap client can stay only on a different port which generates a Cross Domain request denial 
+- SOAP client-server implementation uses differents port (1337 for soap server while the soap client can stay only on a different port which generates a Cross Domain request denial) 
